@@ -1,49 +1,123 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import styles from "./../../Utils/Styles";
+import { NavButton } from './../../Components/Buttons';
+import { navigate } from "./../../Ducks/Actions/navigation";
+import { updateFinancial } from "./../../Ducks/Actions/userInput";
 
-const Financial = () => {
+
+
+const Financial = (props) => {
+    const { updateFinancial, location, veteran } = props
+
     const [income, updateIncome] = useState('0')
     const [debt, updateDebt] = useState('0')
     const [alimony, updateAlimony] = useState('0')
     const [childSupport, updateChildSupport] = useState('0')
 
-    // // *** Note *** // //
-    // Validation will be moved to logic file for testing
-    // could make multiple validations (one for each )
+    const inputFields = [
+        {
+            title: 'Gross Monthly Income',
+            value: income,
+            onChange: updateIncome,
+        },
+        {
+            title: 'Consumer Debt that reflects on Credit',
+            value: debt,
+            onChange: updateDebt,
+        },
+        {
+            title: 'Alimony',
+            value: alimony,
+            onChange: updateAlimony,
+        },
+        {
+            title: 'Child Support',
+            value: childSupport,
+            onChange: updateChildSupport,
+        },
+    ]
+
     const validation = (input, type) => {
         // should set to 0 if nothing in input
         // should remove 0 at start of number
         // should allow for no more than 10 characters
     }
 
+    const updateData = () => {
+        const generalData = {
+            income,
+            debt,
+            alimony,
+            childSupport,
+        };
+        updateFinancial(generalData) // Redux action
+    }
+
+    const handleNavigation = (next) => {
+
+        updateData()
+
+        const back = veteran ? "Veteran" : "General";
+        const location = next ? "Result" : back;
+        props.navigate(location)
+    }
+
+    const mappedInputFields = inputFields.map((data, i) => {
+        return (
+            <div
+                style={styles.inputContainer}
+                key={i}
+            >
+                <h3
+                    style={styles.inputTitle}
+                >
+                    {data.title}
+                </h3>
+                <input style={styles.textInput}
+                    type='text'
+                    value={data.value}
+                    onChange={
+                        (e) => data.onChange(e.target.value)}
+                />
+            </div>
+        )
+    })
+
     return (
-        <div>
-            <h3>Gross Monthly Income</h3>
-            <input
-                type='text'
-                value={income}
-                onChange={(e) => updateIncome(e.target.value)}
+        <div
+            style={styles.container}
+        >
+            {mappedInputFields}
+            <NavButton
+                title="Back"
+                onClick={() => handleNavigation()}
             />
-            <h3>Consumer Debt that reflects on Credit</h3>
-            <input
-                type='text'
-                value={debt}
-                onChange={(e) => updateDebt(e.target.value)}
+            <NavButton
+                title="Calculate Mortgage"
+                onClick={() => handleNavigation(true)}
             />
-            <h3>Alimony</h3>
-            <input
-                type='text'
-                value={alimony}
-                onChange={(e) => updateAlimony(e.target.value)}
-            />
-            <h3>Child Support</h3>
-            <input
-                type='text'
-                value={childSupport}
-                onChange={(e) => updateChildSupport(e.target.value)}
-            />
-            <button>b</button><button>Calculate Mortgage</button>
         </div>
     )
 }
 
-export default Financial
+const mapStateToProps = (state) => {
+    const {
+        location,
+        veteran: {
+            veteran,
+        },
+    } = state
+    return ({
+        location,
+        veteran,
+    })
+
+}
+
+const mapDispatchToProps = {
+    updateFinancial,
+    navigate,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Financial)

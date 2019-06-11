@@ -1,11 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { NavButton, TextButton } from './../../Components/Buttons';
 import data from '../../Data/Data';
+import { navigate } from '../../Ducks/Actions/navigation'
+import { updateVeteran, userIsVeteran } from './../../Ducks/Actions/userInput';
+import styles from './../../Utils/Styles'
 
-const Veteran = () => {
-    const [vetType, updateVetType] = useState('Regular Military - 1st time')
-    const [disability, updateDisability] = useState(false)
-    const [childCare, updateChildCare] = useState('0')
-    const [veteran, updateVeteran] = useState(true)
+
+const Veteran = (props) => {
+    const { updateVeteran } = props
+
+    const [vetType, updateVetType] = useState(props.vetType)
+    const [disability, updateDisability] = useState(props.disability)
+    const [childCare, updateChildCare] = useState(props.childCare)
+    const [verUse, updateVetUse] = useState(props.vetUse)
+    // const [veteran, updateVeteran] = useState(true)
 
     const childCareValidation = (num) => {
         console.log(num)
@@ -17,43 +26,105 @@ const Veteran = () => {
         return
     }
 
-    const updateData = () => {
+    const saveData = () => {
         const vetUse = (vetType.indexOf('1') >= 0) ? 'first' : 'second+'
         const vetTypeShort = (vetType.indexOf('M') >= 0) ? 'Regular Military' : 'Reserves/Guard'
         const data = {
-            childCareVA: childCare,
-            vetType: vetTypeShort,
-            vetUse: vetUse,
-            vetDisability: disability,
+            vetType,
+            disability,
+            childCare,
+            vetUse,
         }
+
+        props.updateVeteran(data) // Redux action
 
     }
 
+    const handleNavigation = (next) => {
+        saveData()
+
+        const location = next ? "Financial" : "General";
+        props.navigate(location)
+    }
+
+    const handleSkip = () => {
+        props.userIsVeteran(false)
+        handleNavigation(true)
+    }
+
+
     return (
         <div>
-            <select value={vetType} onChange={(e) => updateVetType(e.target.value)}>
+            <select
+                style={styles.textInput}
+                value={vetType}
+                onChange={(e) => updateVetType(e.target.value)}
+            >
                 {data.vetType.map((e, i) => <option key={i}>{e}</option>)}
             </select>
             <h3>Service Related Disability</h3>
             <div>
-                <button onClick={() => updateDisability(true)}>Yes</button>
-                <button onClick={() => updateDisability(false)}>No</button>
+                {!disability && <button onClick={() => updateDisability(true)}>Yes</button>}
+                {disability && <button onClick={() => updateDisability(false)}>No</button>}
             </div>
-            <h3>Child Care Expenses</h3>
-            {/* Add a $ sign here in the input box */}
-            <input
-                type='text'
-                value={childCare}
-                // onClick={(e) => updateChildCare((childCare === '0') ? childCare : '')}
-                onChange={(e) => childCareValidation(e.target.value)}
-            />
+            <div
+                style={styles.inputContainer}
+            >
+                <h3
+                    style={styles.inputTitle}
+                >
+                    Child Care Expenses
+                </h3>
+                <input style={styles.textInput}
+                    type='text'
+                    value={childCare}
+                    onChange={
+                        (e) => updateChildCare(e.target.value)}
+                />
+            </div>
 
-            <button>Next</button>
-            <button>Back</button>
-            <h4>Not a veteran?</h4>
-            <h4>skip to next step</h4>
+            <NavButton
+                title="Back"
+                onClick={() => handleNavigation()}
+            />
+            <NavButton
+                title="Next"
+                onClick={() => handleNavigation(true)}
+            />
+            <div>
+                <h4>Not a veteran?</h4>
+                <TextButton
+                    title='skip to next step'
+                    onClick={handleSkip}
+                />
+            </div>
         </div>
     )
 }
 
-export default Veteran
+const mapStateToProps = (state) => {
+    const {
+        location,
+        veteran: {
+            vetType,
+            disability,
+            childCare,
+            vetUse,
+        }
+    } = state
+    return {
+        location,
+        vetType,
+        disability,
+        childCare,
+        vetUse,
+    }
+}
+
+const mapDispatchToProps = {
+    updateVeteran,
+    userIsVeteran,
+    navigate,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Veteran)

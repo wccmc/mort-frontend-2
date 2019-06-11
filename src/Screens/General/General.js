@@ -1,18 +1,36 @@
 import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux';
 import data from '../../Data/Data';
+import { navigate } from '../../Ducks/Actions/navigation'
+import { getRate } from './../../Utils/API';
+import { updateRate, updateGeneral, userIsVeteran } from './../../Ducks/Actions/userInput'
+import { NavButton } from './../../Components/Buttons';
+import styles from '../../Utils/Styles';
 
 
 
-const General = () => {
-    const [credit, updateCredit] = useState('720-739')
-    const [state, updateState] = useState('Utah')
-    const [county, updateCounty] = useState('Salt Lake')
-    const [type, updateType] = useState('Conventional')
-    const [years, updateYears] = useState('30')
-    const [rate, updateRate] = useState(4.125)
-    const [veteran, updateVeteran] = useState(false)
+
+const General = (props) => {
+    const {
+        rate,
+        updateRate,
+        updateGeneral,
+        userIsVeteran,
+    } = props;
+
+
+    const [credit, updateCredit] = useState(props.credit)
+    const [state, updateState] = useState(props.state)
+    const [county, updateCounty] = useState(props.county)
+    const [type, updateType] = useState(props.type)
+    const [years, updateYears] = useState(props.years)
+    // const [rate, updateRate] = useState(4.125)
+    const [veteran, updateVeteran] = useState(props.veteran)
 
     // // *** Get and Set Rate from api *** // //
+    useEffect(() => {
+        getNewRate()
+    }, [])
 
     const filteredCounty = data.county.filter((e) => e.slice(0, e.indexOf(' ')) === state)
     const justCounty = filteredCounty.map((e) => e.slice(e.indexOf('- ') + 1))
@@ -22,40 +40,99 @@ const General = () => {
         return pascal.join(' ')
     }
 
-    const getRate = () => {
+    const getNewRate = async () => {
         // get rate from API
+        try {
+            const newRate = await getRate()
+            console.log(newRate)
+            updateRate(newRate)
+        } catch (e) {
+            // handle error
+        }
     }
 
-    // const addPercent = (r: string): string => `${r}%`
+    const saveData = () => {
+        const generalData = {
+            credit,
+            state,
+            county,
+            type,
+            years,
+        };
+        updateGeneral(generalData) // Redux action
+        userIsVeteran(veteran) // Redux action
+    }
 
-    // const handleRateChange = (r: string): void => updateRate(r.slice(0, r.indexOf('%')))
+
+    const handleNavigation = (next) => {
+        saveData()
+
+        const location = veteran ? "Veteran" : "Financial";
+        props.navigate(location)
+    }
 
     return (
         <div>
-            <h3>Select State</h3>
-            <select value={state} onChange={(e) => updateState(e.target.value)}>
+            <h3
+                style={styles.inputTitle}
+            >
+                Select State
+                </h3>
+            <select
+                value={state}
+                onChange={(e) => updateState(e.target.value)}
+            >
                 {data.state.map((e, i) => <option key={i}>{e}</option>)}
             </select>
-            <h3>Select County</h3>
-            <select value={county} onChange={(e) => updateCounty(e.target.value)}>
+            <h3
+                style={styles.inputTitle}
+            >
+                Select County
+            </h3>
+            <select
+                value={county}
+                onChange={(e) => updateCounty(e.target.value)}
+            >
                 {justCounty.map((e, i) => <option key={i}>{pascalCase(e)}</option>)}
             </select>
-            <h3>Select Loan Type</h3>
-            <select value={type} onChange={(e) => updateType(e.target.value)}>
+            <h3
+                style={styles.inputTitle}
+            >
+                Select Loan Type
+            </h3>
+            <select
+                value={type}
+                onChange={(e) => updateType(e.target.value)}
+            >
                 {data.type.map((e, i) => <option key={i}>{e}</option>)}
             </select>
-            <h3>Select Credit Range</h3>
-            <select value={credit} onChange={(e) => updateCredit(e.target.value)}>
+            <h3
+                style={styles.inputTitle}
+            >
+                Select Credit Range
+            </h3>
+            <select
+                value={credit}
+                onChange={(e) => updateCredit(e.target.value)}
+            >
                 {data.credit.map((e, i) => <option key={i}>{e}</option>)}
             </select>
-            <h3>Loan Length (years)</h3>
+            <h3
+                style={styles.inputTitle}
+            >
+                Loan Length (years)
+            </h3>
             <select
                 value={years}
                 onChange={(e) => updateYears(e.target.value)}
             >
                 {data.years.map((e, i) => <option key={i}>{e}</option>)}
             </select>
-            <h3>Loan Rate (default to current rate)</h3>
+            <h3
+                style={styles.inputTitle}
+            >
+                Loan Rate (default to current rate)
+                </h3>
             <div>
                 <datalist id="tickmarks">
                     <option value="2.5" label='2.5%' />
@@ -78,7 +155,10 @@ const General = () => {
                     value={rate}
                     onChange={(e) => updateRate(+e.target.value)}
                 />
-                <label>Rate of
+                <label
+                    style={styles.inputTitle}
+                >
+                    Rate of
                     <input
                         type='number'
                         name='rate'
@@ -87,37 +167,91 @@ const General = () => {
                     />
                     %</label>
             </div>
-            <p>Are you a Veteran:</p>
+            <div
+                style={styles.radioSectionContainer}
+            >
+                <h3
+                    style={styles.inputTitle}
+                >
+                    Are you a Veteran:
+                    </h3>
+                <div
+                    style={styles.radioInputGroup}
+                >
+                    <div>
+                        <input
+                            type="radio"
+                            id="huey"
+                            name="drone"
+                            value="huey"
+                            onChange={() => updateVeteran(false)}
+                            checked={!veteran}
+                        />
+                        <label
+                            style={styles.inputTitle}
+                            htmlFor='huey'
+                        >
+                            No
+                        </label>
+                    </div>
 
-            <div>
-                <input
-                    type="radio"
-                    id="huey"
-                    name="drone"
-                    value="huey"
-                    onChange={() => updateVeteran(false)}
-                    checked={!veteran}
-                />
-                <label
-                    htmlFor='huey'
-                >No</label>
+                    <div>
+                        <input
+                            type="radio"
+                            id="dewey"
+                            name="drone"
+                            value="dewey"
+                            onChange={() => updateVeteran(true)}
+                            checked={veteran}
+                        />
+                        <label
+                            style={styles.inputTitle}
+                            htmlFor='dewey'
+                        >
+                            Yes
+                        </label>
+                    </div>
+                </div>
             </div>
-
-            <div>
-                <input
-                    type="radio"
-                    id="dewey"
-                    name="drone"
-                    value="dewey"
-                    onChange={() => updateVeteran(true)}
-                />
-                <label
-                    htmlFor='dewey'
-                >Yes</label>
-            </div>
-            <button>Next</button>
+            <NavButton
+                title="Next"
+                onClick={() => handleNavigation(true)}
+            />
         </div>
     )
 }
 
-export default General
+const mapStateToProps = (state) => {
+    const {
+        location,
+        rate,
+        general: {
+            credit,
+            state: province,
+            county,
+            type,
+            years,
+        },
+        veteran: {
+            veteran,
+        } } = state
+    return {
+        location,
+        rate,
+        credit,
+        state: province,
+        county,
+        type,
+        years,
+        veteran,
+    }
+}
+
+const mapDispatchToProps = {
+    navigate,
+    updateRate,
+    updateGeneral,
+    userIsVeteran,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(General)
