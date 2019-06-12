@@ -1,21 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from "react-redux";
 import { navigate } from './../../Ducks/Actions/navigation';
 import { calculate } from "./../../Utils/API";
 import { NavButton } from './../../Components/Buttons';
+import styles from '../../Utils/Styles';
 
 
 
 const Result = (props) => {
+    const [maxAmount, updateMaxAmount] = useState(0)
     const submitData = async () => {
         // api call to send data
         // return // return data obj from api
     }
 
     useEffect(() => {
-
+        const max = submitData()
+        updateMaxAmount(max)
     }, [])
 
+    const formatDollars = (num) => {
+        // const things = num.split('').map((n, i) =>{})
+    }
 
     const handleNavigation = (next) => {
 
@@ -26,9 +32,12 @@ const Result = (props) => {
     }
 
     return (
-        <div >
-            This is the Result Page
-             <NavButton
+        <div style={styles.container}>
+            <div>
+                <h2>Maximum Mortgage Amount</h2>
+                {/* <h1>${maxAmount}</h1> */}
+            </div>
+            <NavButton
                 title="Back"
                 onClick={() => handleNavigation()}
             />

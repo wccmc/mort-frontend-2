@@ -4,6 +4,8 @@ import styles from "./../../Utils/Styles";
 import { NavButton } from './../../Components/Buttons';
 import { navigate } from "./../../Ducks/Actions/navigation";
 import { updateFinancial } from "./../../Ducks/Actions/userInput";
+import { InptTtlTxt } from './../../Components/Text';
+import { TextInput } from './../../Components/Inputs';
 
 
 
@@ -69,25 +71,17 @@ const Financial = (props) => {
                 style={styles.inputContainer}
                 key={i}
             >
-                <h3
-                    style={styles.inputTitle}
-                >
-                    {data.title}
-                </h3>
-                <input style={styles.textInput}
-                    type='text'
+                <InptTtlTxt text={data.title} />
+                <TextInput
                     value={data.value}
-                    onChange={
-                        (e) => data.onChange(e.target.value)}
+                    onChange={data.onChange}
                 />
             </div>
         )
     })
 
     return (
-        <div
-            style={styles.container}
-        >
+        <div style={styles.container}>
             {mappedInputFields}
             <NavButton
                 title="Back"

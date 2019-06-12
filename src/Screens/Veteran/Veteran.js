@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { NavButton, TextButton } from './../../Components/Buttons';
+import { InptTtlTxt } from './../../Components/Text';
+import { TextInput, DropDown } from './../../Components/Inputs';
 import data from '../../Data/Data';
 import { navigate } from '../../Ducks/Actions/navigation'
 import { updateVeteran, userIsVeteran } from './../../Ducks/Actions/userInput';
@@ -54,35 +56,31 @@ const Veteran = (props) => {
 
 
     return (
-        <div>
-            <select
-                style={styles.textInput}
-                value={vetType}
-                onChange={(e) => updateVetType(e.target.value)}
-            >
-                {data.vetType.map((e, i) => <option key={i}>{e}</option>)}
-            </select>
-            <h3>Service Related Disability</h3>
-            <div>
-                {!disability && <button onClick={() => updateDisability(true)}>Yes</button>}
-                {disability && <button onClick={() => updateDisability(false)}>No</button>}
-            </div>
-            <div
-                style={styles.inputContainer}
-            >
-                <h3
-                    style={styles.inputTitle}
-                >
-                    Child Care Expenses
-                </h3>
-                <input style={styles.textInput}
-                    type='text'
-                    value={childCare}
-                    onChange={
-                        (e) => updateChildCare(e.target.value)}
+        <div style={styles.container}>
+            <div style={styles.inputContainer}>
+                <DropDown
+                    value={vetType}
+                    onChange={updateVetType}
+                    data={data.vetType}
                 />
             </div>
+            <div style={styles.radioSectionContainer}>
 
+                <InptTtlTxt text='Service Related Disability' />
+                <div>
+                    {!disability ?
+                        <button onClick={() => updateDisability(true)}>Yes</button>
+                        :
+                        <button onClick={() => updateDisability(false)}>No</button>}
+                </div>
+            </div>
+            <div style={styles.inputContainer}>
+                <InptTtlTxt text='Child Care Expenses' />
+                <TextInput
+                    value={childCare}
+                    onChange={updateChildCare}
+                />
+            </div>
             <NavButton
                 title="Back"
                 onClick={() => handleNavigation()}

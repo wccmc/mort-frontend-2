@@ -5,8 +5,10 @@ import { navigate } from '../../Ducks/Actions/navigation'
 import { getRate } from './../../Utils/API';
 import { updateRate, updateGeneral, userIsVeteran } from './../../Ducks/Actions/userInput'
 import { NavButton } from './../../Components/Buttons';
+import { InptTtlTxt } from './../../Components/Text';
+import { TextInput, RadioInput, DropDown } from './../../Components/Inputs';
+import Slider from './../../Components/Slider/Slider'
 import styles from '../../Utils/Styles';
-
 
 
 
@@ -18,13 +20,12 @@ const General = (props) => {
         userIsVeteran,
     } = props;
 
-
     const [credit, updateCredit] = useState(props.credit)
     const [state, updateState] = useState(props.state)
     const [county, updateCounty] = useState(props.county)
     const [type, updateType] = useState(props.type)
     const [years, updateYears] = useState(props.years)
-    // const [rate, updateRate] = useState(4.125)
+    const [downPmt, updateDownPmt] = useState(props.downPmt)
     const [veteran, updateVeteran] = useState(props.veteran)
 
     // // *** Get and Set Rate from api *** // //
@@ -32,8 +33,12 @@ const General = (props) => {
         getNewRate()
     }, [])
 
-    const filteredCounty = data.county.filter((e) => e.slice(0, e.indexOf(' ')) === state)
-    const justCounty = filteredCounty.map((e) => e.slice(e.indexOf('- ') + 1))
+    const filteredCounty = (compareState) => {
+        const filtered = data.county.filter((e) => e.slice(0, e.indexOf(' ')) === compareState)
+        const justCounty = filtered.map((e) => e.slice(e.indexOf('- ') + 1))
+        return justCounty
+    }
+
     const pascalCase = (word) => {
         let pascal = word.split(' ')
         pascal = pascal.map(e => e.charAt(0).toUpperCase() + e.substr(1).toLowerCase())
@@ -41,15 +46,61 @@ const General = (props) => {
     }
 
     const getNewRate = async () => {
-        // get rate from API
         try {
-            const newRate = await getRate()
+            const newRate = await getRate() // API call
             console.log(newRate)
-            updateRate(newRate)
+            updateRate(newRate) // Redux action
         } catch (e) {
             // handle error
         }
     }
+
+    const handleStateChange = (text) => {
+        updateState(text)
+        const [newCounty] = filteredCounty(text)
+        updateCounty(newCounty)
+    }
+
+    // // // DropDown Data // // //
+    const DropDownData = [
+        {
+            title: 'Select State',
+            value: state,
+            onChange: handleStateChange,
+            data: data.state,
+        },
+        {
+            title: 'Select County',
+            value: county,
+            onChange: updateCounty,
+            data: filteredCounty(state),
+            display: pascalCase,
+        },
+        {
+            title: 'Select Loan Type',
+            value: type,
+            onChange: updateType,
+            data: data.type,
+        },
+        {
+            title: 'Select Credit Range',
+            value: credit,
+            onChange: updateCredit,
+            data: data.credit,
+        },
+        {
+            title: 'Loan Length (years)',
+            value: years,
+            onChange: updateYears,
+            data: data.years,
+        },
+        {
+            title: 'Select Credit Range',
+            value: credit,
+            onChange: updateCredit,
+            data: data.credit,
+        },
+    ]
 
     const saveData = () => {
         const generalData = {
@@ -71,147 +122,48 @@ const General = (props) => {
         props.navigate(location)
     }
 
-    return (
-        <div>
-            <h3
-                style={styles.inputTitle}
-            >
-                Select State
-                </h3>
-            <select
-                value={state}
-                onChange={(e) => updateState(e.target.value)}
-            >
-                {data.state.map((e, i) => <option key={i}>{e}</option>)}
-            </select>
-            <h3
-                style={styles.inputTitle}
-            >
-                Select County
-            </h3>
-            <select
-                value={county}
-                onChange={(e) => updateCounty(e.target.value)}
-            >
-                {justCounty.map((e, i) => <option key={i}>{pascalCase(e)}</option>)}
-            </select>
-            <h3
-                style={styles.inputTitle}
-            >
-                Select Loan Type
-            </h3>
-            <select
-                value={type}
-                onChange={(e) => updateType(e.target.value)}
-            >
-                {data.type.map((e, i) => <option key={i}>{e}</option>)}
-            </select>
-            <h3
-                style={styles.inputTitle}
-            >
-                Select Credit Range
-            </h3>
-            <select
-                value={credit}
-                onChange={(e) => updateCredit(e.target.value)}
-            >
-                {data.credit.map((e, i) => <option key={i}>{e}</option>)}
-            </select>
-            <h3
-                style={styles.inputTitle}
-            >
-                Loan Length (years)
-            </h3>
-            <select
-                value={years}
-                onChange={(e) => updateYears(e.target.value)}
-            >
-                {data.years.map((e, i) => <option key={i}>{e}</option>)}
-            </select>
-            <h3
-                style={styles.inputTitle}
-            >
-                Loan Rate (default to current rate)
-                </h3>
-            <div>
-                <datalist id="tickmarks">
-                    <option value="2.5" label='2.5%' />
-                    <option value="3" />
-                    <option value="3.5" />
-                    <option value="4" label='4%' />
-                    <option value="4.5" />
-                    <option value="5" />
-                    <option value="5.5" />
-                    <option value="6" label='6%' />
-                </datalist>
-                <input
-                    type="range"
-                    id="start"
-                    name="rate"
-                    list="tickmarks"
-                    min="2.5"
-                    max="6"
-                    step="0.25"
-                    value={rate}
-                    onChange={(e) => updateRate(+e.target.value)}
-                />
-                <label
-                    style={styles.inputTitle}
-                >
-                    Rate of
-                    <input
-                        type='number'
-                        name='rate'
-                        value={rate}
-                        onChange={(e) => updateRate(+e.target.value)}
+    const mappedDropDowns = (data) => {
+        return data.map((e, i) => {
+            const { title, value, onChange, data, display } = e
+            return (
+                <div key={i} style={styles.inputContainer}>
+                    <InptTtlTxt text={title} />
+                    <DropDown
+                        value={value}
+                        onChange={onChange}
+                        data={data}
+                        display={display}
                     />
-                    %</label>
-            </div>
-            <div
-                style={styles.radioSectionContainer}
-            >
-                <h3
-                    style={styles.inputTitle}
-                >
-                    Are you a Veteran:
-                    </h3>
-                <div
-                    style={styles.radioInputGroup}
-                >
-                    <div>
-                        <input
-                            type="radio"
-                            id="huey"
-                            name="drone"
-                            value="huey"
-                            onChange={() => updateVeteran(false)}
-                            checked={!veteran}
-                        />
-                        <label
-                            style={styles.inputTitle}
-                            htmlFor='huey'
-                        >
-                            No
-                        </label>
-                    </div>
-
-                    <div>
-                        <input
-                            type="radio"
-                            id="dewey"
-                            name="drone"
-                            value="dewey"
-                            onChange={() => updateVeteran(true)}
-                            checked={veteran}
-                        />
-                        <label
-                            style={styles.inputTitle}
-                            htmlFor='dewey'
-                        >
-                            Yes
-                        </label>
-                    </div>
                 </div>
+            )
+        })
+    }
+
+    return (
+        <div style={styles.container}>
+            {mappedDropDowns(DropDownData)}
+            <div style={styles.inputContainer}>
+                <InptTtlTxt text='Down Payment' />
+                <TextInput
+                    value={downPmt}
+                    onChange={updateDownPmt}
+                />
+            </div>
+            <div style={styles.sliderSectionContainer}>
+                <InptTtlTxt text='Loan Rate (default to current rate)' />
+                <Slider
+                    rate={rate}
+                    updateRate={props.updateRate}
+                />
+            </div>
+            <div style={styles.radioSectionContainer}>
+                <InptTtlTxt text='Are you a Veteran:' />
+                <RadioInput
+                    checked={veteran}
+                    onChange={updateVeteran}
+                    firstLabel='Yes'
+                    secondLabel='No'
+                />
             </div>
             <NavButton
                 title="Next"
@@ -231,6 +183,7 @@ const mapStateToProps = (state) => {
             county,
             type,
             years,
+            downPmt,
         },
         veteran: {
             veteran,
@@ -243,6 +196,7 @@ const mapStateToProps = (state) => {
         county,
         type,
         years,
+        downPmt,
         veteran,
     }
 }

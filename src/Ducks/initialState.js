@@ -6,6 +6,7 @@ const initialState = {
         county: 'Salt Lake',
         type: 'Conventional',
         years: '30',
+        downPmt: '0',
     },
     veteran: {
         vetType: 'Regular Military - 1st time',

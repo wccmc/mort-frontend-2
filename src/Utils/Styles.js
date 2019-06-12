@@ -8,9 +8,9 @@ const Sizing = {
 
 const styles = {
     appContainer: {
-        height: "100vh",
+        // height: "100vh",
         width: "100vw",
-        // height: "100%",
+        height: "100%",
         // width: "100%",
         backgroundColor: Colors.CONTENT_BACKGROUND,
         color: Colors.FONT,
@@ -21,47 +21,83 @@ const styles = {
         // width: '50%',
         display: 'flex',
         flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'center',
 
     },
+
     inputContainer: {
         display: 'flex',
         flexDirection: 'column',
-        height: 100,
-        width: '50%',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        // height: 100,
+        width: '40%',
+        margin: 15,
+        padding: 10,
+        // backgroundColor: 'lightblue',
     },
     inputTitle: {
         margin: '25px 0 10 0',
         fontSize: Sizing.TITLE_TEXT,
+        color: Colors.INPUT_TITLE,
 
     },
     textInput: {
-        width: '20%',
+        width: '100%',
         height: 25,
-        minWidth: 200,
-        backgroundColor: '#d1d1d1',
+        minWidth: 300,
+        color: Colors.INPUT_TEXT,
+        backgroundColor: Colors.INPUT_BACKGROUND,
         fontSize: Sizing.INPUT_TEXT,
-        margin: 10,
+        marginTop: 10,
 
     },
     radioSectionContainer: {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        height: 50,
-        width: 300,
+        width: '40%',
+        margin: 15,
+        padding: 10,
+        // height: 50,
     },
     radioInputGroup: {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
+        width: '30%',
+    },
+    sliderSectionContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        // height: 100,
+        width: '40%',
+        margin: 15,
+        padding: 10,
+    },
+    sliderGroup: {
+        // display: 'flex',
+        // flexDirection: 'row',
+        // justifyContent: 'space-between',
+        // alignItems: 'center',
+        height: 70,
+        backgroundColor: 'red',
+        margin: 10,
+
+    },
+    buttonToggleContainer: {
+
     },
     navBtn: {
-        backgroundColor: 'orange',
+        backgroundColor: Colors.BTN_BACKGROUND,
         width: 200,
         height: 40,
         borderRadius: 5,
         border: 'none',
-        margin: "4px 2px",
+        margin: "10px 2px",
         cursor: "pointer",
     },
     textBtn: {
