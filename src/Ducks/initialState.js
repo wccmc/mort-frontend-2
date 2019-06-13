@@ -21,7 +21,8 @@ const initialState = {
         alimony: '0',
         childSupport: '0'
     },
-    location: 'General',
+    hoa: '0',
+    location: 'Veteran',
 }
 
 export default initialState

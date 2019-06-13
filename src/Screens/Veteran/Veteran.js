@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { NavButton, TextButton } from './../../Components/Buttons';
+import { NavButton, TextButton, SmallButton } from './../../Components/Buttons';
 import { InptTtlTxt } from './../../Components/Text';
 import { TextInput, DropDown } from './../../Components/Inputs';
 import data from '../../Data/Data';
@@ -67,11 +67,9 @@ const Veteran = (props) => {
             <div style={styles.radioSectionContainer}>
 
                 <InptTtlTxt text='Service Related Disability' />
-                <div>
-                    {!disability ?
-                        <button onClick={() => updateDisability(true)}>Yes</button>
-                        :
-                        <button onClick={() => updateDisability(false)}>No</button>}
+                <div style={{ display: 'flex', }}>
+                    <SmallButton title='Yes' onClick={() => updateDisability(true)} selected={disability} />
+                    <SmallButton title='No' onClick={() => updateDisability(false)} selected={!disability} />
                 </div>
             </div>
             <div style={styles.inputContainer}>
@@ -89,7 +87,7 @@ const Veteran = (props) => {
                 title="Next"
                 onClick={() => handleNavigation(true)}
             />
-            <div>
+            <div style={styles.textBtnContainer}>
                 <h4>Not a veteran?</h4>
                 <TextButton
                     title='skip to next step'
