@@ -32,11 +32,11 @@ const Routing = (props) => {
       case 'General':
         return <General />
 
-      case 'Financial':
-        return <Financial />
-
       case 'Veteran':
         return <Veteran />
+
+      case 'Financial':
+        return <Financial />
 
       case 'Result':
         return <Result />
