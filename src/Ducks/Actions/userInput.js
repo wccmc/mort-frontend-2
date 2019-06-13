@@ -4,7 +4,6 @@ const USER_IS_VETERAN = 'USER_IS_VETERAN';
 const UPDATE_GENERAL = 'UPDATE_GENERAL';
 const UPDATE_VETERAN = 'UPDATE_VETERAN';
 const UPDATE_FINANCIAL = 'UPDATE_FINANCIAL';
-const UPDATE_HOA = 'UPDATE_HOA';
 
 const types = {
     UPDATE_RATE,
@@ -12,7 +11,6 @@ const types = {
     UPDATE_GENERAL,
     UPDATE_VETERAN,
     UPDATE_FINANCIAL,
-    UPDATE_HOA,
 }
 
 export default types
@@ -45,7 +43,3 @@ export const updateFinancial = (financial) => ({
     payload: financial
 })
 
-export const updateHoa = (fee) => ({
-    type: UPDATE_HOA,
-    payload: fee
-})
