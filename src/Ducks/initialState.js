@@ -22,7 +22,7 @@ const initialState = {
         childSupport: '0'
     },
     hoa: '0',
-    location: 'Veteran',
+    location: 'General',
 }
 
 export default initialState
