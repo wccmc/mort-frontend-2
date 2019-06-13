@@ -21,7 +21,6 @@ const initialState = {
         alimony: '0',
         childSupport: '0'
     },
-    hoa: '0',
     location: 'General',
 }
 
