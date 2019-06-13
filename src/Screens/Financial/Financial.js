@@ -82,7 +82,9 @@ const Financial = (props) => {
 
     return (
         <div style={styles.container}>
-            {mappedInputFields}
+            <div style={styles.contentContainer}>
+                {mappedInputFields}
+            </div>
             <NavButton
                 title="Back"
                 onClick={() => handleNavigation()}

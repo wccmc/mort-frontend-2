@@ -15,14 +15,9 @@ const Slider = (props) => {
     />)
 
     return (
-        <div
-            style={styles.sliderGroup}
-        >
+        <div style={styles.sliderGroup} >
             <div style={styles.slider}>
-
-                <datalist id="tickmarks"
-                // style={{ backgroundColor: 'red', }}
-                >
+                <datalist id="tickmarks" >
                     <option value="2.5" label='2.5%' />
                     <option value="3" />
                     <option value="3.5" />
@@ -33,7 +28,6 @@ const Slider = (props) => {
                     <option value="6" label='6%' />
                 </datalist>
                 <input
-                    // style={{ margin: 15, height: 50, }}
                     type="range"
                     id="start"
                     name="rate"
@@ -45,7 +39,6 @@ const Slider = (props) => {
                     onChange={(e) => updateRate(e.target.value)}
                 />
             </div>
-
             <label
                 style={styles.rateTitle}
             >
