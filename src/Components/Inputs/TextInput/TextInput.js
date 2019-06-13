@@ -7,7 +7,7 @@ const TextInput = (props) => {
 
     return (
         <input
-            style={{ ...style, ...styles.textInput }}
+            style={{ ...styles.textInput, ...style }}
             type={type}
             value={value}
             onChange={(e) => onChange(e.target.value)}
