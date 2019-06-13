@@ -48,7 +48,6 @@ const General = (props) => {
     const getNewRate = async () => {
         try {
             const newRate = await getRate() // API call
-            console.log(newRate)
             updateRate(newRate) // Redux action
         } catch (e) {
             // handle error
@@ -94,12 +93,12 @@ const General = (props) => {
             onChange: updateYears,
             data: data.years,
         },
-        {
-            title: 'Select Credit Range',
-            value: credit,
-            onChange: updateCredit,
-            data: data.credit,
-        },
+        // {
+        //     title: 'Select Credit Range',
+        //     value: credit,
+        //     onChange: updateCredit,
+        //     data: data.credit,
+        // },
     ]
 
     const saveData = () => {
@@ -141,29 +140,31 @@ const General = (props) => {
 
     return (
         <div style={styles.container}>
-            {mappedDropDowns(DropDownData)}
-            <div style={styles.inputContainer}>
-                <InptTtlTxt text='Down Payment' />
-                <TextInput
-                    value={downPmt}
-                    onChange={updateDownPmt}
-                />
-            </div>
-            <div style={styles.sliderSectionContainer}>
-                <InptTtlTxt text='Loan Rate (default to current rate)' />
-                <Slider
-                    rate={rate}
-                    updateRate={props.updateRate}
-                />
-            </div>
-            <div style={styles.radioSectionContainer}>
-                <InptTtlTxt text='Are you a Veteran:' />
-                <RadioInput
-                    checked={veteran}
-                    onChange={updateVeteran}
-                    firstLabel='Yes'
-                    secondLabel='No'
-                />
+            <div style={styles.contentContainer}>
+                {mappedDropDowns(DropDownData)}
+                <div style={styles.inputContainer}>
+                    <InptTtlTxt text='Down Payment' />
+                    <TextInput // This has a strange styling issue
+                        value={downPmt}
+                        onChange={updateDownPmt}
+                    />
+                </div>
+                <div style={styles.sliderSectionContainer}>
+                    <InptTtlTxt text='Loan Rate (default to current rate)' />
+                    <Slider
+                        rate={rate}
+                        updateRate={props.updateRate}
+                    />
+                </div>
+                <div style={styles.radioSectionContainer}>
+                    <InptTtlTxt text='Are you a Veteran?' />
+                    <RadioInput
+                        checked={veteran}
+                        onChange={updateVeteran}
+                        firstLabel='Yes'
+                        secondLabel='No'
+                    />
+                </div>
             </div>
             <NavButton
                 title="Next"
