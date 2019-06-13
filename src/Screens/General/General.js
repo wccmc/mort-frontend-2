@@ -93,12 +93,6 @@ const General = (props) => {
             onChange: updateYears,
             data: data.years,
         },
-        // {
-        //     title: 'Select Credit Range',
-        //     value: credit,
-        //     onChange: updateCredit,
-        //     data: data.credit,
-        // },
     ]
 
     const saveData = () => {
@@ -108,6 +102,7 @@ const General = (props) => {
             county,
             type,
             years,
+            downPmt,
         };
         updateGeneral(generalData) // Redux action
         userIsVeteran(veteran) // Redux action

@@ -57,27 +57,29 @@ const Veteran = (props) => {
 
     return (
         <div style={styles.container}>
-            <div style={styles.inputContainer}>
-                <DropDown
-                    value={vetType}
-                    onChange={updateVetType}
-                    data={data.vetType}
-                />
-            </div>
-            <div style={styles.radioSectionContainer}>
-
-                <InptTtlTxt text='Service Related Disability' />
-                <div style={{ display: 'flex', }}>
-                    <SmallButton title='Yes' onClick={() => updateDisability(true)} selected={disability} />
-                    <SmallButton title='No' onClick={() => updateDisability(false)} selected={!disability} />
+            <div style={styles.contentContainer}>
+                <div style={styles.inputContainer}>
+                    <DropDown
+                        value={vetType}
+                        onChange={updateVetType}
+                        data={data.vetType}
+                    />
                 </div>
-            </div>
-            <div style={styles.inputContainer}>
-                <InptTtlTxt text='Child Care Expenses' />
-                <TextInput
-                    value={childCare}
-                    onChange={updateChildCare}
-                />
+                <div style={styles.radioSectionContainer}>
+
+                    <InptTtlTxt text='Service Related Disability' />
+                    <div style={{ display: 'flex', }}>
+                        <SmallButton title='Yes' onClick={() => updateDisability(true)} selected={disability} />
+                        <SmallButton title='No' onClick={() => updateDisability(false)} selected={!disability} />
+                    </div>
+                </div>
+                <div style={styles.inputContainer}>
+                    <InptTtlTxt text='Child Care Expenses' />
+                    <TextInput
+                        value={childCare}
+                        onChange={updateChildCare}
+                    />
+                </div>
             </div>
             <NavButton
                 title="Back"
