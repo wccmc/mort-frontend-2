@@ -3,31 +3,72 @@ import { connect } from "react-redux";
 import { calculate } from "./../../Utils/API";
 import { NavButton } from './../../Components/Buttons';
 import { TextInput } from './../../Components/Inputs';
+import { InptTtlTxt } from './../../Components/Text';
 import { navigate } from './../../Ducks/Actions/navigation';
-import { updateHoa } from './../../Ducks/Actions/userInput';
+import { updateHoa, updateResult } from './../../Ducks/Actions/userInput';
+import PmtDisplay from './../../Components/PmtDisplay/PmtDisplay';
 
 import styles from '../../Utils/Styles';
 
+
+const text = {
+    mainTitle: `Maximum Mortgage Amount`,
+    breakdownTitle: `This is the breakdown of the monthly cost`,
+}
 
 
 const Result = (props) => {
     const [maxAmount, updateMaxAmount] = useState(0)
     const [showHoa, updateShowHoa] = useState(false)
+    const toggleShowHoa = () => updateShowHoa(!showHoa)
     // const [hoa, updateHoa] = useState(0)
 
-    const submitData = async () => {
-
-        // calculate() // api call to send data
-        // return // return data obj from api
+    const convertTypes = (type) => {
+        switch (type) {
+            case 'Conventional':
+                return 'conv'
+            case 'FHA':
+                return 'fha'
+            case 'VA':
+                return 'va'
+            case 'Jumbo':
+                return 'jumbo'
+            default:
+                break;
+        }
     }
 
-    useEffect(async () => {
-        const max = await submitData()
-        updateMaxAmount(max)
+
+    const submitData = async (data) => {
+        console.log('this was type', data.type)
+        const type = convertTypes(data.type)
+        console.log('this is type', type)
+        try {
+
+            const result = await calculate(type, data.rate, data) // api call
+            console.log('this is a result', result.result)
+            props.updateResult(result.result) // Redux action
+            return (result.result.maxHomeValue) // return data obj from api
+        }
+        catch (e) {
+            // handle error
+        }
+    }
+
+    useEffect(() => {
+        const submitAndSave = async () => {
+            const max = await submitData(props)
+            updateMaxAmount(max)
+        }
+        submitAndSave()
     }, [])
 
     const formatDollars = (num) => {
         // const things = num.split('').map((n, i) =>{})
+    }
+
+    const reCalculate = () => {
+        submitData(props)
     }
 
     const handleNavigation = (next) => {
@@ -40,33 +81,40 @@ const Result = (props) => {
 
     return (
         <div style={styles.container}>
-            <div>
-                <h2>Maximum Mortgage Amount</h2>
-                {/* <h1>${maxAmount}</h1> */}
-                <div>
-                    This is the breakdown
-                    And the monthly cost
+            <div style={styles.contentContainer}>
+                <h2>{text.mainTitle}</h2>
+                <h1>${props.result.maxHomeValue}</h1>
+                <div style={styles.breakdownContainer}>
+                    <InptTtlTxt text={text.breakdownTitle} />
+                    <PmtDisplay result={props.result} />
                 </div>
 
-                <div>
-                    <NavButton
-                        title="Add HOA Fee"
-                        onClick={updateShowHoa}
-                    />
+            </div>
+            <div style={styles.container}>
+                {showHoa &&
                     <TextInput
                         value={props.hoa}
                         onCheck={props.updateHoa}
-                    />
-                    <NavButton
-                        title="Re-Calculate"
-                        onClick={updateShowHoa}
-                    />
-                </div>
+                    />}
+                <NavButton
+                    title="Add HOA Fee"
+                    onClick={toggleShowHoa}
+                />
+                <NavButton
+                    title="Re-Calculate"
+                    onClick={reCalculate}
+                />
             </div>
-            <NavButton
-                title="Back"
-                onClick={() => handleNavigation()}
-            />
+            <div style={styles.navBtnContainer}>
+                <NavButton
+                    title="Back"
+                    onClick={() => handleNavigation()}
+                />
+                <NavButton
+                    title="Back to City Creek Mortgage"
+                    onClick={() => handleNavigation()}
+                />
+            </div>
         </div>
     )
 }
@@ -92,11 +140,12 @@ const mapStateToProps = (state) => {
         },
         financial: {
             income,
-            debt,
+            debts,
             alimony,
             childSupport,
         },
         hoa,
+        result,
     } = state;
 
     return {
@@ -106,24 +155,26 @@ const mapStateToProps = (state) => {
         state: province,
         county,
         type,
-        years,
-        downPmt,
+        years: +years,
+        downPmt: +downPmt,
         vetType,
         disability,
-        childCare,
+        childCare: +childCare,
         vetUse,
         veteran,
-        income,
-        debt,
-        alimony,
-        childSupport,
-        hoa,
+        income: +income,
+        debts: +debts,
+        alimony: +alimony,
+        childSupport: +childSupport,
+        hoa: +hoa,
+        result
     }
 }
 
 const mapDispatchToProps = {
     navigate,
     updateHoa,
+    updateResult,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Result)

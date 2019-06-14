@@ -5,7 +5,7 @@ const RadioInput = (props) => {
     const { value, onChange, data, display } = props
 
     const filter = (item, display) => {
-        return display && display(item) || item
+        return (display && display(item)) || item
     }
 
     return (

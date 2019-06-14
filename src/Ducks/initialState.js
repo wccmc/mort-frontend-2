@@ -5,8 +5,9 @@ const initialState = {
         state: 'Utah',
         county: 'Salt Lake',
         type: 'Conventional',
-        years: '30',
+        // years: '30', // REMOVE
         downPmt: '0',
+        downPmt: '150000',
     },
     veteran: {
         vetType: 'Regular Military - 1st time',
@@ -17,12 +18,24 @@ const initialState = {
     },
     financial: {
         income: '0',
-        debt: '0',
+        // income: '5700', // REMOVE
+        debts: '0',
+        // debts: '65', // REMOVE
         alimony: '0',
         childSupport: '0'
     },
     hoa: '0',
     location: 'General',
+    // location: 'Result', // REMOVE
+    result: {
+        maxHomeValue: 0,
+        pAndI: 0,
+        tax: 0,
+        mortgageInsurance: 0,
+        homeInsurance: 0,
+        hoa: 0,
+        monthly: 0,
+    },
 }
 
 export default initialState

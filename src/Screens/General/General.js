@@ -33,9 +33,15 @@ const General = (props) => {
         getNewRate()
     }, [])
 
+    useEffect(() => {
+        console.log('update County', state)
+        const [newCounty] = filteredCounty(state)
+        updateCounty(newCounty)
+    }, [state])
+
     const filteredCounty = (compareState) => {
         const filtered = data.county.filter((e) => e.slice(0, e.indexOf(' ')) === compareState)
-        const justCounty = filtered.map((e) => e.slice(e.indexOf('- ') + 1))
+        const justCounty = filtered.map((e) => e.slice(e.indexOf('- ') + 2))
         return justCounty
     }
 
@@ -54,18 +60,13 @@ const General = (props) => {
         }
     }
 
-    const handleStateChange = (text) => {
-        updateState(text)
-        const [newCounty] = filteredCounty(text)
-        updateCounty(newCounty)
-    }
-
     // // // DropDown Data // // //
     const DropDownData = [
         {
             title: 'Select State',
             value: state,
-            onChange: handleStateChange,
+            // onChange: handleStateChange,
+            onChange: updateState,
             data: data.state,
         },
         {

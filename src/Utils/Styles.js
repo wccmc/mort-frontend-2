@@ -127,7 +127,31 @@ const styles = {
         // backgroundColor: 'red',
         // width: 100,
     },
-    buttonToggleContainer: {
+    breakdownContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        marginTop: 45,
+        padding: 15,
+        backgroundColor: 'darkgrey',
+    },
+    pmtDisplayContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        width: '50%',
+        minWidth: 250,
+        marginTop: 10,
+        borderBottomWidth: 2,
+
+    },
+    pmtDisplay: {
+        fontSize: 18,
+        color: Colors.FONT,
+        marginTop: 5,
 
     },
     smallButton: {
@@ -139,6 +163,15 @@ const styles = {
     },
     smallButtonSelected: {
         backgroundColor: 'red',
+    },
+    navBtnContainer: {
+        display: 'flex',
+        // flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '30%',
+        minWidth: 300,
+
     },
     navBtn: {
         backgroundColor: Colors.BTN_BACKGROUND,
