@@ -1,10 +1,12 @@
 
 const data = {
     vetType: [
-        'Regular Military - 1st time',
-        'Regular Military - Second +',
-        'Reserves / Guard - 1st time',
-        'Reserves / Guard - Second +'
+        'Regular Military',
+        'Reserves / Guard'
+    ],
+    vetUse: [
+        '1st time',
+        'Second +'
     ],
     type: [
         'Conventional',

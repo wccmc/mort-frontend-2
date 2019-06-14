@@ -75,6 +75,7 @@ const Financial = (props) => {
                 <TextInput
                     value={data.value}
                     onChange={data.onChange}
+                    type='number'
                 />
             </div>
         )

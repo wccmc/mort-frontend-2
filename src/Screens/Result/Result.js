@@ -37,15 +37,21 @@ const Result = (props) => {
                 break;
         }
     }
+    const showHoaBtnTitle = `${+props.hoa ? 'Update' : 'Add'} HOA Fee`
 
+    const prepareData = (data) => {
+        const vetUse = (data.vetUse.indexOf('1') >= 0) ? 'first' : 'second +';
+        const type = convertTypes(data.type);
+        const cleanData = { ...data, vetUse, type }
+        console.log('this is clean data', cleanData)
+        return cleanData
+    }
 
-    const submitData = async (data) => {
-        console.log('this was type', data.type)
-        const type = convertTypes(data.type)
-        console.log('this is type', type)
+    const submitData = async (rawData) => {
+        const data = prepareData(rawData)
+        console.log(data)
         try {
-
-            const result = await calculate(type, data.rate, data) // api call
+            const result = await calculate(data.type, data.rate, data) // api call
             console.log('this is a result', result.result)
             props.updateResult(result.result) // Redux action
             return (result.result.maxHomeValue) // return data obj from api
@@ -58,7 +64,7 @@ const Result = (props) => {
     useEffect(() => {
         const submitAndSave = async () => {
             const max = await submitData(props)
-            updateMaxAmount(max)
+            // updateMaxAmount(max)
         }
         submitAndSave()
     }, [])
@@ -68,6 +74,7 @@ const Result = (props) => {
     }
 
     const reCalculate = () => {
+        toggleShowHoa()
         submitData(props)
     }
 
@@ -79,31 +86,43 @@ const Result = (props) => {
         props.navigate(location)
     }
 
+    const displayData = (resultData) => {
+        const monthlyData = { ...resultData }
+        delete monthlyData.maxHomeValue
+        return monthlyData
+    }
+
     return (
         <div style={styles.container}>
             <div style={styles.contentContainer}>
                 <h2>{text.mainTitle}</h2>
                 <h1>${props.result.maxHomeValue}</h1>
                 <div style={styles.breakdownContainer}>
-                    <InptTtlTxt text={text.breakdownTitle} />
-                    <PmtDisplay result={props.result} />
+                    <InptTtlTxt text={text.breakdownTitle} style={styles.breakdownTitle} />
+                    <PmtDisplay data={displayData(props.result)} />
                 </div>
 
             </div>
             <div style={styles.container}>
-                {showHoa &&
-                    <TextInput
-                        value={props.hoa}
-                        onCheck={props.updateHoa}
-                    />}
-                <NavButton
-                    title="Add HOA Fee"
-                    onClick={toggleShowHoa}
-                />
-                <NavButton
-                    title="Re-Calculate"
-                    onClick={reCalculate}
-                />
+                {showHoa ? (
+                    <>
+                        <TextInput
+                            value={props.hoa}
+                            onChange={props.updateHoa}
+                            type='number'
+                        />
+                        <NavButton
+                            title="Re-Calculate"
+                            onClick={reCalculate}
+                        />
+                    </>
+                ) : (
+
+                        <NavButton
+                            title={showHoaBtnTitle}
+                            onClick={toggleShowHoa}
+                        />
+                    )}
             </div>
             <div style={styles.navBtnContainer}>
                 <NavButton

@@ -10,32 +10,28 @@ import styles from './../../Utils/Styles'
 
 
 const Veteran = (props) => {
-    const { updateVeteran } = props
 
     const [vetType, updateVetType] = useState(props.vetType)
+    const [vetUse, updateVetUse] = useState(props.vetUse)
     const [disability, updateDisability] = useState(props.disability)
     const [childCare, updateChildCare] = useState(props.childCare)
-    const [verUse, updateVetUse] = useState(props.vetUse)
-    // const [veteran, updateVeteran] = useState(true)
 
-    const childCareValidation = (num) => {
-        console.log(num)
-        let numOnly = num.match(/\d/gi)
-        console.log(numOnly)
-        console.log('fix child care validation so no 0 to start but 0 if nothing also, no more than 4 characters')
+    // const childCareValidation = (num) => {
+    //     console.log(num)
+    //     let numOnly = num.match(/\d/gi)
+    //     console.log(numOnly)
+    //     console.log('fix child care validation so no 0 to start but 0 if nothing also, no more than 4 characters')
 
-        updateChildCare(`${numOnly ? numOnly.join('') : ''}`)
-        return
-    }
+    //     updateChildCare(`${numOnly ? numOnly.join('') : ''}`)
+    //     return
+    // }
 
     const saveData = () => {
-        const vetUse = (vetType.indexOf('1') >= 0) ? 'first' : 'second+'
-        const vetTypeShort = (vetType.indexOf('M') >= 0) ? 'Regular Military' : 'Reserves/Guard'
         const data = {
             vetType,
+            vetUse,
             disability,
             childCare,
-            vetUse,
         }
 
         props.updateVeteran(data) // Redux action
@@ -54,19 +50,38 @@ const Veteran = (props) => {
         handleNavigation(true)
     }
 
+    const vetDropDowns = [
+        {
+            title: 'Type of Veteran',
+            value: vetType,
+            onChange: updateVetType,
+            data: data.vetType
+        },
+        {
+            title: 'VA Mortgage Use',
+            value: vetUse,
+            onChange: updateVetUse,
+            data: data.vetUse
+        },
+    ]
+
+    // const vetTypeValue = `${vetType} - ${props.vetUse}`
+    const mappedVetDropDowns = vetDropDowns.map((e, i) => (
+        <div style={styles.inputContainer} key={i}>
+            <InptTtlTxt text={e.title} />
+            <DropDown
+                value={e.value}
+                onChange={e.onChange}
+                data={e.data}
+            />
+        </div>
+    ))
 
     return (
         <div style={styles.container}>
             <div style={styles.contentContainer}>
-                <div style={styles.inputContainer}>
-                    <DropDown
-                        value={vetType}
-                        onChange={updateVetType}
-                        data={data.vetType}
-                    />
-                </div>
+                {mappedVetDropDowns}
                 <div style={styles.radioSectionContainer}>
-
                     <InptTtlTxt text='Service Related Disability' />
                     <div style={{ display: 'flex', }}>
                         <SmallButton title='Yes' onClick={() => updateDisability(true)} selected={disability} />

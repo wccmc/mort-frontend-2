@@ -5,28 +5,25 @@ const initialState = {
         state: 'Utah',
         county: 'Salt Lake',
         type: 'Conventional',
-        // years: '30', // REMOVE
+        years: '30',
         downPmt: '0',
-        downPmt: '150000',
+        downPmt: '0',
     },
     veteran: {
-        vetType: 'Regular Military - 1st time',
+        vetType: 'Regular Military',
         disability: false,
         childCare: '0',
-        vetUse: 'first',
+        vetUse: '1st time',
         veteran: false,
     },
     financial: {
         income: '0',
-        // income: '5700', // REMOVE
         debts: '0',
-        // debts: '65', // REMOVE
         alimony: '0',
         childSupport: '0'
     },
     hoa: '0',
     location: 'General',
-    // location: 'Result', // REMOVE
     result: {
         maxHomeValue: 0,
         pAndI: 0,

@@ -52,7 +52,6 @@ const styles = {
         // margin: '25px 0 10px 0',
         fontSize: Sizing.TITLE_TEXT,
         color: Colors.INPUT_TITLE,
-
     },
     textInput: {
         width: '100%',
@@ -137,6 +136,9 @@ const styles = {
         padding: 15,
         backgroundColor: 'darkgrey',
     },
+    breakdownTitle: {
+        textAlign: 'center',
+    },
     pmtDisplayContainer: {
         display: 'flex',
         flexDirection: 'column',
@@ -148,7 +150,20 @@ const styles = {
         borderBottomWidth: 2,
 
     },
-    pmtDisplay: {
+    pmtDisplayLineContainer: {
+        marginLeft: 30,
+        padding: 2,
+        borderBottom: '1px dotted black',
+        minWidth: '80%',
+
+    },
+    pmtDisplayTitle: {
+        fontSize: 20,
+        color: Colors.FONT,
+        marginTop: 15,
+
+    },
+    pmtDisplayNum: {
         fontSize: 18,
         color: Colors.FONT,
         marginTop: 5,

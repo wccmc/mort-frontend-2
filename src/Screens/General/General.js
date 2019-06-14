@@ -34,7 +34,6 @@ const General = (props) => {
     }, [])
 
     useEffect(() => {
-        console.log('update County', state)
         const [newCounty] = filteredCounty(state)
         updateCounty(newCounty)
     }, [state])
@@ -119,7 +118,8 @@ const General = (props) => {
 
     const mappedDropDowns = (data) => {
         return data.map((e, i) => {
-            const { title, value, onChange, data, display } = e
+            const { title, value, onChange, data, display } = e;
+            console.log('this is looped value')
             return (
                 <div key={i} style={styles.inputContainer}>
                     <InptTtlTxt text={title} />
