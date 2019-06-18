@@ -12,7 +12,7 @@ const displayNames = {
     homeInsurance: 'Home Insurance',
     tax: 'Taxes',
     hoa: 'HOA Fee',
-    monthly: 'Monthly Cost',
+    monthly: 'Total Monthly Cost',
 }
 
 
