@@ -23,6 +23,7 @@ const styles = {
         justifyContent: 'center',
     },
     headerText: {
+        textAlign: 'center',
         fontSize: '3em',
         color: Colors.FONT,
     },
@@ -151,6 +152,7 @@ const styles = {
         width: '100%',
     },
     maxTitle: {
+        textAlign: 'center',
         fontSize: '2em',
         color: Colors.FONT,
         alignSelf: 'center',
