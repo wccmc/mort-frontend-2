@@ -1,44 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import Screens from './Screens';
-import { getRate } from './Utils/API';
 import { connect } from 'react-redux';
+import Header from './Components/Header/Header'
 
 const Routing = (props) => {
-  // const [rate, updateRate] = useState(4)
-  // // const defaultVetData = {
-  // //   "childCareVA": 0,
-  // //   "vetType": "Regular Military",
-  // //   "vetUse": "first",
-  // //   "vetDisability": false,
-  // // }
-
-  // // const [vetData, updateVetData] = useState(defaultVetData)
-
-  // useEffect(() => {
-  //   // getRate().then(rate => updateRate(rate))
-  //   getRate().then(res => {
-  //     console.log(res)
-  //     updateRate(res)
-  //   })
-  //   // const newRate: Promise<number> = getRate()
-  //   // updateRate(newRate)
-  // }, [])
 
   const display = () => {
     const { Financial, General, Result, Veteran, } = Screens
-    const { location = 'General' } = props // coming from Redux
+    const { location = 'General', routes } = props // coming from Redux
+
 
     switch (location) {
-      case 'General':
+      // to update routes order update the redux initial state
+      case routes[0]:
         return <General />
 
-      case 'Veteran':
+      case routes[1]:
         return <Veteran />
 
-      case 'Financial':
+      case routes[2]:
         return <Financial />
 
-      case 'Result':
+      case routes[3]:
         return <Result />
 
       default:
@@ -49,11 +32,12 @@ const Routing = (props) => {
 
   return (
     <div>
+      <Header />
       {display()}
     </div>
   )
 }
 
-const mapStateToProps = ({ location }) => ({ location })
+const mapStateToProps = ({ location, routes }) => ({ location, routes })
 
 export default connect(mapStateToProps)(Routing)

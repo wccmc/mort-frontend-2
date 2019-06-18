@@ -15,6 +15,7 @@ export default (state = initialState, action) => {
         UPDATE_VETERAN,
         UPDATE_FINANCIAL,
         UPDATE_HOA,
+        UPDATE_RESULT,
     } = userInputTypes;
 
     switch (type) {
@@ -42,6 +43,9 @@ export default (state = initialState, action) => {
             return newState
         case UPDATE_HOA:
             newState.hoa = payload;
+            return newState
+        case UPDATE_RESULT:
+            newState.result = payload;
             return newState
 
         default:

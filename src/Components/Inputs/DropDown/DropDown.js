@@ -5,16 +5,18 @@ const RadioInput = (props) => {
     const { value, onChange, data, display } = props
 
     const filter = (item, display) => {
-        return display && display(item) || item
+        return (display && display(item)) || item
     }
+
+    const mappedOptions = data.map((e, i) => <option key={i}>{filter(e, display)}</option>)
 
     return (
         <select
             style={styles.textInput}
-            value={value}
+            defaultValue={value}
             onChange={(e) => onChange(e.target.value)}
         >
-            {data.map((e, i) => <option key={i}>{filter(e, display)}</option>)}
+            {mappedOptions}
         </select>
     )
 }

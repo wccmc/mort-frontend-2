@@ -16,6 +16,16 @@ const styles = {
         color: Colors.FONT,
         padding: 45,
     },
+    headerContainer: {
+        height: '10vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    headerText: {
+        fontSize: '3em',
+        color: Colors.FONT,
+    },
     container: {
         // height: '50%',
         // width: '50%',
@@ -52,7 +62,6 @@ const styles = {
         // margin: '25px 0 10px 0',
         fontSize: Sizing.TITLE_TEXT,
         color: Colors.INPUT_TITLE,
-
     },
     textInput: {
         width: '100%',
@@ -62,6 +71,9 @@ const styles = {
         fontSize: Sizing.INPUT_TEXT,
         marginTop: 10,
         paddingLeft: 5,
+        border: '1px solid black',
+        borderRadius: 5,
+
 
     },
     rateTitle: {
@@ -69,6 +81,7 @@ const styles = {
         color: Colors.INPUT_TITLE,
     },
     rateTextInput: {
+        borderRadius: 5,
         margin: 5,
         paddingLeft: 5,
         width: 50,
@@ -80,8 +93,10 @@ const styles = {
         alignItems: 'center',
         width: '100%',
         minWidth: 300,
+        maxWidth: 400,
         marginTop: 15,
         padding: 10,
+        margin: 'auto',
         // backgroundColor: 'purple',
         // height: 50,
     },
@@ -127,24 +142,98 @@ const styles = {
         // backgroundColor: 'red',
         // width: 100,
     },
-    buttonToggleContainer: {
+    maxContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'space-around',
+        justifyContent: 'center',
+        marginTop: '5vh',
+        width: '100%',
+    },
+    maxTitle: {
+        fontSize: '2em',
+        color: Colors.FONT,
+        alignSelf: 'center',
+        // width: '100%',
+    },
+    maxDisplay: {
+        fontSize: '4em',
+        color: Colors.FONT,
+        alignSelf: 'center',
+        // width: '100%',
+
+    },
+    breakdownContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        marginTop: 45,
+        padding: 15,
+        paddingBottom: 25,
+        backgroundColor: Colors.DISPLAY_BG, // Use Global Color
+    },
+    breakdownTitle: {
+        textAlign: 'center',
+    },
+    pmtDisplayContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        width: '50%',
+        minWidth: 300,
+        marginTop: 10,
+        borderBottomWidth: 2,
+
+    },
+    pmtDisplayLineContainer: {
+        marginLeft: '5%',
+        padding: 2,
+        borderBottom: '1px dotted black',
+        minWidth: '90%',
+
+    },
+    pmtDisplayTitle: {
+        fontSize: 20,
+        color: Colors.FONT,
+        marginTop: 20,
+
+    },
+    pmtDisplayNum: {
+        fontSize: 18,
+        color: Colors.FONT,
+        marginTop: 10,
 
     },
     smallButton: {
         height: 25,
         width: 50,
         color: Colors.FONT,
-        backgroundColor: 'gray',
+        backgroundColor: Colors.SMALL_BTN,
         margin: 10,
     },
     smallButtonSelected: {
-        backgroundColor: 'red',
+        backgroundColor: Colors.BTN_FOCUS,
+    },
+    navBtnContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '30%',
+        // minWidth: 300,
+
     },
     navBtn: {
         backgroundColor: Colors.BTN_BACKGROUND,
-        width: 200,
-        height: 40,
+        color: Colors.BTN_FONT,
+        fontSize: 24,
+        minWidth: 200,
+        minHeight: 50,
         borderRadius: 5,
+        padding: '10px',
         border: 'none',
         margin: "20px 2px",
         cursor: "pointer",

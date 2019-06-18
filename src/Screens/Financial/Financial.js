@@ -12,10 +12,10 @@ import { TextInput } from './../../Components/Inputs';
 const Financial = (props) => {
     const { updateFinancial, location, veteran } = props
 
-    const [income, updateIncome] = useState('0')
-    const [debt, updateDebt] = useState('0')
-    const [alimony, updateAlimony] = useState('0')
-    const [childSupport, updateChildSupport] = useState('0')
+    const [income, updateIncome] = useState(props.income)
+    const [debts, updateDebts] = useState(props.debts)
+    const [alimony, updateAlimony] = useState(props.alimony)
+    const [childSupport, updateChildSupport] = useState(props.childSupport)
 
     const inputFields = [
         {
@@ -25,8 +25,8 @@ const Financial = (props) => {
         },
         {
             title: 'Consumer Debt that reflects on Credit',
-            value: debt,
-            onChange: updateDebt,
+            value: debts,
+            onChange: updateDebts,
         },
         {
             title: 'Alimony',
@@ -49,7 +49,7 @@ const Financial = (props) => {
     const updateData = () => {
         const generalData = {
             income,
-            debt,
+            debts,
             alimony,
             childSupport,
         };
@@ -75,6 +75,7 @@ const Financial = (props) => {
                 <TextInput
                     value={data.value}
                     onChange={data.onChange}
+                    type='number'
                 />
             </div>
         )
@@ -86,12 +87,12 @@ const Financial = (props) => {
                 {mappedInputFields}
             </div>
             <NavButton
-                title="Back"
-                onClick={() => handleNavigation()}
-            />
-            <NavButton
                 title="Calculate Mortgage"
                 onClick={() => handleNavigation(true)}
+            />
+            <NavButton
+                title="Back"
+                onClick={() => handleNavigation()}
             />
         </div>
     )
@@ -103,10 +104,20 @@ const mapStateToProps = (state) => {
         veteran: {
             veteran,
         },
+        financial: {
+            income,
+            debts,
+            alimony,
+            childSupport,
+        },
     } = state
     return ({
         location,
         veteran,
+        income,
+        debts,
+        alimony,
+        childSupport,
     })
 
 }
