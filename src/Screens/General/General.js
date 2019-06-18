@@ -165,10 +165,11 @@ const General = (props) => {
                 title="Next"
                 onClick={() => handleNavigation(true)}
             />
-            <NavButton
+            {/* Testing Rate Button */}
+            {/* <NavButton
                 title="Rate ME"
                 onClick={getRealRate}
-            />
+            /> */}
         </div>
     )
 }
