@@ -17,10 +17,11 @@ const styles = {
         padding: 45,
     },
     headerContainer: {
-        height: '10vh',
+        minHeight: '10vh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        padding: 35,
     },
     headerText: {
         textAlign: 'center',
