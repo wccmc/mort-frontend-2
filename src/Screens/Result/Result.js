@@ -91,13 +91,14 @@ const Result = (props) => {
         delete monthlyData.maxHomeValue
         return monthlyData
     }
+    const displayMaxValue = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(props.result.maxHomeValue)
 
     return (
         <div style={styles.container}>
             <div style={styles.contentContainer}>
                 <div style={styles.maxContainer}>
                     <h2 style={styles.maxTitle}>{text.mainTitle}</h2>
-                    <h1 style={styles.maxDisplay}>${props.result.maxHomeValue}</h1>
+                    <h1 style={styles.maxDisplay}>{displayMaxValue}</h1>
                 </div>
                 <div style={styles.breakdownContainer}>
                     <InptTtlTxt text={text.breakdownTitle} style={styles.breakdownTitle} />
