@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux';
 import data from '../../Data/Data';
 import { navigate } from '../../Ducks/Actions/navigation'
-import { getRate } from './../../Utils/API';
+import { getRate, getRealRate } from './../../Utils/API';
 import { updateRate, updateGeneral, userIsVeteran } from './../../Ducks/Actions/userInput'
 import { NavButton } from './../../Components/Buttons';
 import { InptTtlTxt } from './../../Components/Text';
@@ -109,7 +109,7 @@ const General = (props) => {
     }
 
 
-    const handleNavigation = (next) => {
+    const handleNavigation = () => {
         saveData()
 
         const location = veteran ? "Veteran" : "Financial";
@@ -119,7 +119,6 @@ const General = (props) => {
     const mappedDropDowns = (data) => {
         return data.map((e, i) => {
             const { title, value, onChange, data, display } = e;
-            console.log('this is looped value')
             return (
                 <div key={i} style={styles.inputContainer}>
                     <InptTtlTxt text={title} />
@@ -165,6 +164,10 @@ const General = (props) => {
             <NavButton
                 title="Next"
                 onClick={() => handleNavigation(true)}
+            />
+            <NavButton
+                title="Rate ME"
+                onClick={getRealRate}
             />
         </div>
     )

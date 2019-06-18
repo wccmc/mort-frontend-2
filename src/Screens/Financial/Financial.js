@@ -87,12 +87,12 @@ const Financial = (props) => {
                 {mappedInputFields}
             </div>
             <NavButton
-                title="Back"
-                onClick={() => handleNavigation()}
-            />
-            <NavButton
                 title="Calculate Mortgage"
                 onClick={() => handleNavigation(true)}
+            />
+            <NavButton
+                title="Back"
+                onClick={() => handleNavigation()}
             />
         </div>
     )

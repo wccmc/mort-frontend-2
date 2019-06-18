@@ -1,6 +1,21 @@
 import React from 'react'
 import styles from '../../Utils/Styles';
 
+const renameData = (data) => {
+    const newData = {}
+
+}
+
+const displayNames = {
+    pAndI: 'Principal and Interest Payment',
+    mortgageInsurance: 'Mortgage Insurance',
+    homeInsurance: 'Home Insurance',
+    tax: 'Taxes',
+    hoa: 'HOA Fee',
+    monthly: 'Monthly Cost',
+}
+
+
 export default ({ data }) => {
 
     const number = (num, i) => {
@@ -14,7 +29,7 @@ export default ({ data }) => {
         for (let key in dataObj) {
             const line = (
                 <div key={key} style={styles.pmtDisplayLineContainer}>
-                    <h3 style={styles.pmtDisplayTitle} >{key}</h3>
+                    <h3 style={styles.pmtDisplayTitle} >{displayNames[key]}</h3>
                     <h3 style={styles.pmtDisplayNum} >$ {dataObj[key]}</h3>
                 </div>
             )
@@ -31,3 +46,4 @@ export default ({ data }) => {
         </div>
     )
 }
+

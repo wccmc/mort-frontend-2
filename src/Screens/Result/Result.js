@@ -83,7 +83,7 @@ const Result = (props) => {
         // updateData()
 
         const location = "Financial"
-        props.navigate(location)
+        props.navigate(next || location)
     }
 
     const displayData = (resultData) => {
@@ -95,8 +95,10 @@ const Result = (props) => {
     return (
         <div style={styles.container}>
             <div style={styles.contentContainer}>
-                <h2>{text.mainTitle}</h2>
-                <h1>${props.result.maxHomeValue}</h1>
+                <div style={styles.maxContainer}>
+                    <h2 style={styles.maxTitle}>{text.mainTitle}</h2>
+                    <h1 style={styles.maxDisplay}>${props.result.maxHomeValue}</h1>
+                </div>
                 <div style={styles.breakdownContainer}>
                     <InptTtlTxt text={text.breakdownTitle} style={styles.breakdownTitle} />
                     <PmtDisplay data={displayData(props.result)} />
@@ -112,6 +114,7 @@ const Result = (props) => {
                             type='number'
                         />
                         <NavButton
+                            style={{ fontSize: 15, minHeight: 25 }}
                             title="Re-Calculate"
                             onClick={reCalculate}
                         />
@@ -119,6 +122,7 @@ const Result = (props) => {
                 ) : (
 
                         <NavButton
+                            style={{ fontSize: 15, minHeight: 25 }}
                             title={showHoaBtnTitle}
                             onClick={toggleShowHoa}
                         />
@@ -126,13 +130,19 @@ const Result = (props) => {
             </div>
             <div style={styles.navBtnContainer}>
                 <NavButton
+                    style={{ marginTop: 30 }}
                     title="Back"
                     onClick={() => handleNavigation()}
                 />
                 <NavButton
+                    style={{ marginTop: 0 }}
+                    title="Edit Values"
+                    onClick={() => handleNavigation('General')}
+                />
+                {/* <NavButton
                     title="Back to City Creek Mortgage"
                     onClick={() => handleNavigation()}
-                />
+                /> */}
             </div>
         </div>
     )

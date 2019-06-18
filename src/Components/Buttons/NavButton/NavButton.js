@@ -2,9 +2,9 @@ import React from "react";
 import styles from './../../../Utils/Styles';
 import PropTypes from "prop-types";
 
-const NavButton = ({ title, onClick }) => (
+const NavButton = ({ title, onClick, style }) => (
     <button
-        style={styles.navBtn}
+        style={style ? { ...styles.navBtn, ...style } : styles.navBtn}
         onClick={onClick}
     >
         {title}

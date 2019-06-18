@@ -24,6 +24,12 @@ const initialState = {
     },
     hoa: '0',
     location: 'General',
+    routes: [
+        'General',
+        'Veteran',
+        'Financial',
+        'Result'
+    ],
     result: {
         maxHomeValue: 0,
         pAndI: 0,
