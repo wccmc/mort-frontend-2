@@ -12,7 +12,7 @@ import styles from '../../Utils/Styles';
 
 
 const text = {
-    mainTitle: `Maximum Mortgage Amount`,
+    mainTitle: `Maximum Home Value`,
     breakdownTitle: `This is the breakdown of the monthly cost`,
 }
 
